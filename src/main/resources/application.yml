@@ -1,0 +1,36 @@
+spring:
+  cloud:
+    config:
+      enabled: false
+  application:
+    name: address-svc
+server:
+  port: 5000
+  servlet:
+    context-path: /
+management:
+  endpoint:
+    health:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+
+resilience4j:
+  retry:
+    instances:
+      "[serviceB#retry]":
+        waitDuration: 500ms #<-- wait between two retries
+        maxAttempt: 3 #<-- max retries
+  ratelimiter:
+    instances:
+      "[serviceB#ratelimiter]":
+        limitForPeriod: 3   # <-- number of call allowed in a period
+        limitRefreshPeriod: 1s  #<-- 1 second is the length of a period
+        timeoutDuration: 500ms  # <-- how long a thread wait for permision
+  circuitbreaker:
+    instances:
+      "[serviceB#circuitbreaker]":
+        slidingWindowSize: 20
+        failureRateThreshold: 50
