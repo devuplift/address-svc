@@ -34,3 +34,6 @@ resilience4j:
       "[serviceB#circuitbreaker]":
         slidingWindowSize: 20
         failureRateThreshold: 50
+logging:
+  file:
+    name: address-svc.log
