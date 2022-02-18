@@ -13,6 +13,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import static net.logstash.logback.argument.StructuredArguments.v;
 
 @Service
 @Slf4j
@@ -39,6 +40,10 @@ public class AddressServiceImpl implements AddressService {
             addressList.add(address);
         }
 
+        if(addressList.isEmpty()) {
+            log.error("No address found");
+        }
+
        return addressList;
     }
 
@@ -49,6 +54,7 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public Address getAddress(String city) {
         log.info("Enter into getAddress ");
+        log.info("searching city  {}-> {}.", v("city", city),v("city2", city));
         Address address = new Address();
         AddressEntity entity = addressRepository.getByCity(city);
         if(null != entity) {
@@ -57,8 +63,11 @@ public class AddressServiceImpl implements AddressService {
             address.setState(entity.getState());
             address.setStreet(entity.getStreet());
         }
-        return address;
-      //  throw  new RuntimeException();
+        if(null != address && null == address.getCity()) {
+            log.error("No address found , empty city");
+        }
+        //return address;
+        throw  new RuntimeException();
     }
 
     @Transactional
