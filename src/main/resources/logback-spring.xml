@@ -1,11 +1,11 @@
 <configuration>
-    <!--<springProfile name="default">
+    <springProfile name="default">
         <include resource="org/springframework/boot/logging/logback/base.xml"/>
-    </springProfile>-->
+    </springProfile>
 
     <springProperty scope="context" name="myappName" source="spring.application.name"/>
     <contextName>${myappName}</contextName>
-    <springProfile name="default">
+    <springProfile name="dev">
         <appender name="jsonConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
             <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
         </appender>

@@ -66,8 +66,8 @@ public class AddressServiceImpl implements AddressService {
         if(null != address && null == address.getCity()) {
             log.error("No address found , empty city");
         }
-        //return address;
-        throw  new RuntimeException();
+        return address;
+      //  throw  new RuntimeException();
     }
 
     @Transactional
